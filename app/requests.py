@@ -1,6 +1,8 @@
 import urllib.request,json
-from .models import sources,Articles
+from .models import Sources,Articles
 from datetime import datetime
+import os
+
 
 #getting the api key
 api_key = None
@@ -14,19 +16,22 @@ articles_url = None
 def configure_request(app):
 
 	global api_key,base_url,articles_url
-	api_key = app.config['API_KEY']
+	api_key = app.config['API_KEY'] 
+	print (api_key)
 	base_url = app.config['NEWS_SOURCES_BASE_URL']
+	print(base_url)
 	articles_url = app.config['ARTICLES_BASE_URL']
 
 def get_sources(category):
 	'''
 	Function that gets the json response to our url request
 	'''
-	get_sources_url = base_url.format(category,api_key)
+	get_sources_url = base_url.format(api_key)
 
 	with urllib.request.urlopen(get_sources_url) as url:
 		get_sources_data = url.read()
 		get_sources_response = json.loads(get_sources_data)
+		print(get_sources_url)
 
 		sources_results = None
 
@@ -48,13 +53,13 @@ def process_sources(sources_list):
 	sources_results = []
 
 	for source_item in sources_list:
-		id = source_item.get('id') 
-		name = source_item.get('name')
-		description = source_item.get('description')
-		url = source_item.get('url')
-		category = source_item.get('category')
-		language = source_item.get('language')
-		country = source_item.get('country')
+		id = source_item['id'] 
+		name = source_item['name']
+		description = source_item['description']
+		url = source_item['url']
+		category = source_item['category']
+		language = source_item['language']
+		country = source_item['country']
 
 
 		sources_object = Sources(id,name,description,url,category,country,language)
@@ -83,13 +88,13 @@ def process_articles(articles_list):
   
 	articles_object = []
 	for article_item in articles_list:
-		id = article_item.get('id')
-		author = article_item.get('author')
-		title = article_item.get('title')
-		description = article_item.get('description')
-		url = article_item.get('url')
-		image = article_item.get('urlToImage')
-		date = article_item.get('publishedAt')
+		# id = article_item['id']
+		author = article_item['author']
+		title = article_item['title']
+		description = article_item['description']
+		url = article_item['url']
+		image = article_item['urlToImage']
+		date = article_item['publishedAt']
 		
 		if image:
 			articles_result = Articles(id,author,title,description,url,image,date)

@@ -1,11 +1,12 @@
 import os
 
-class config:
+class Config:
     ""
     ""
-    NEWS_SOURCES_BASE_URL ='https://newsapi.org/v2/sources?language=en&category={}&apiKey='
-    ARTICLES_BASE_URL = 'https://newsapi.org/v2/everything?language=en&sources={}&apiKey='
-    API_KEY = os.environ.get('API_KEY')
+    NEWS_SOURCES_BASE_URL ='https://newsapi.org/v2/sources?apiKey=97f1428aee8247589d7f6fb4f1fbcb23'
+    ARTICLES_BASE_URL = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey=97f1428aee8247589d7f6fb4f1fbcb23'
+    API_KEY = os.environ.get('API_KEY') 
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     @staticmethod
     def init_app(app):
             pass
